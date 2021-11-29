@@ -1,0 +1,30 @@
+config:
+  target: "https://elentari.utem.com"
+  phases:
+    - duration: 60
+      arrivalRate: 1
+      name: Warm Up
+    - duration: 60
+      arrivalRate: 1
+      rampTo: 5
+      name: Ramp Up
+    - duration: 180
+      arrivalRate: 5
+      name: Sustained Load
+  payload:
+    - path: "kumelen_token.csv"
+      fields:
+        - "kumelen_token"
+        - "post_id"
+        - "service_id"
+        - "search_term"
+        - "category_id"
+      skipHeader: true
+
+scenarios:
+  - name: "Obtener Servicio por ID"
+    flow:
+      - get:
+          url: "/v1/service/{{service_id}}"
+          headers:
+            Authorization: "{{kumelen_token}}"
